@@ -112,7 +112,7 @@ class iosrtcPlugin : CDVPlugin {
 			return;
 		}
 
-		self.queue.async { [weak pluginRTCPeerConnection] in
+		pluginRTCPeerConnection?.queue.async { [weak pluginRTCPeerConnection] in
 			pluginRTCPeerConnection?.createOffer(options,
 				callback: { (data: NSDictionary) -> Void in
 					self.emit(command.callbackId,
@@ -145,7 +145,7 @@ class iosrtcPlugin : CDVPlugin {
 			return;
 		}
 
-		self.queue.async { [weak pluginRTCPeerConnection] in
+		pluginRTCPeerConnection?.queue.async { [weak pluginRTCPeerConnection] in
 			pluginRTCPeerConnection?.createAnswer(options,
 				callback: { (data: NSDictionary) -> Void in
 					self.emit(command.callbackId,
@@ -173,7 +173,7 @@ class iosrtcPlugin : CDVPlugin {
 			return;
 		}
 
-		self.queue.async { [weak pluginRTCPeerConnection] in
+		pluginRTCPeerConnection?.queue.async { [weak pluginRTCPeerConnection] in
 			pluginRTCPeerConnection?.setLocalDescription(desc,
 				callback: { (data: NSDictionary) -> Void in
 					self.emit(command.callbackId,
@@ -201,7 +201,7 @@ class iosrtcPlugin : CDVPlugin {
 			return;
 		}
 
-		self.queue.async { [weak pluginRTCPeerConnection] in
+		pluginRTCPeerConnection?.queue.async { [weak pluginRTCPeerConnection] in
 			pluginRTCPeerConnection?.setRemoteDescription(desc,
 				callback: { (data: NSDictionary) -> Void in
 					self.emit(command.callbackId,
@@ -229,7 +229,7 @@ class iosrtcPlugin : CDVPlugin {
 			return;
 		}
 
-		self.queue.async { [weak pluginRTCPeerConnection] in
+		pluginRTCPeerConnection?.queue.async { [weak pluginRTCPeerConnection] in
 			pluginRTCPeerConnection?.addIceCandidate(candidate,
 				callback: { (data: NSDictionary) -> Void in
 					self.emit(command.callbackId,
@@ -263,7 +263,7 @@ class iosrtcPlugin : CDVPlugin {
 			return;
 		}
 
-		self.queue.async { [weak pluginRTCPeerConnection, weak pluginMediaStream] in
+		pluginRTCPeerConnection?.queue.async { [weak pluginRTCPeerConnection, weak pluginMediaStream] in
 			if pluginRTCPeerConnection?.addStream(pluginMediaStream!) == true {
 				self.saveMediaStream(pluginMediaStream!)
 			}
@@ -288,7 +288,7 @@ class iosrtcPlugin : CDVPlugin {
 			return;
 		}
 
-		self.queue.async { [weak pluginRTCPeerConnection, weak pluginMediaStream] in
+		pluginRTCPeerConnection?.queue.async { [weak pluginRTCPeerConnection, weak pluginMediaStream] in
 			pluginRTCPeerConnection?.removeStream(pluginMediaStream!)
 		}
 	}
@@ -317,7 +317,7 @@ class iosrtcPlugin : CDVPlugin {
 			return;
 		}
 		
-		self.queue.async { [weak pluginRTCPeerConnection, weak pluginMediaStreamTrack] in
+		pluginRTCPeerConnection?.queue.async { [weak pluginRTCPeerConnection, weak pluginMediaStreamTrack] in
 			if pluginRTCPeerConnection?.addTrack(pluginMediaStreamTrack!) == true {
 				self.saveMediaStreamTrack(pluginMediaStreamTrack!)
 			}
@@ -347,7 +347,7 @@ class iosrtcPlugin : CDVPlugin {
 			return;
 		}
 		
-		self.queue.async { [weak pluginRTCPeerConnection, weak pluginMediaStreamTrack] in
+		pluginRTCPeerConnection?.queue.async { [weak pluginRTCPeerConnection, weak pluginMediaStreamTrack] in
 			pluginRTCPeerConnection?.removeTrack(pluginMediaStreamTrack!)
 			// TODO remove only if not used by other stream
 			self.deleteMediaStreamTrack(trackId)
@@ -373,7 +373,7 @@ class iosrtcPlugin : CDVPlugin {
 			return;
 		}
 
-		self.queue.async { [weak pluginRTCPeerConnection] in
+		pluginRTCPeerConnection?.queue.async { [weak pluginRTCPeerConnection] in
 			pluginRTCPeerConnection?.createDataChannel(dcId,
 				label: label,
 				options: options,
@@ -419,7 +419,7 @@ class iosrtcPlugin : CDVPlugin {
 			}
 		}
 
-		self.queue.async { [weak pluginRTCPeerConnection, weak pluginMediaStreamTrack] in
+		pluginRTCPeerConnection?.queue.async { [weak pluginRTCPeerConnection, weak pluginMediaStreamTrack] in
 			pluginRTCPeerConnection?.getStats(pluginMediaStreamTrack,
 				callback: { (array: [[String:Any]]) -> Void in
 					self.emit(command.callbackId,
@@ -446,7 +446,7 @@ class iosrtcPlugin : CDVPlugin {
 			return;
 		}
 
-		self.queue.async { [weak pluginRTCPeerConnection] in
+		pluginRTCPeerConnection?.queue.async { [weak pluginRTCPeerConnection] in
 			if pluginRTCPeerConnection != nil {
 				pluginRTCPeerConnection!.close()
 			}
@@ -468,7 +468,7 @@ class iosrtcPlugin : CDVPlugin {
 			return;
 		}
 
-		self.queue.async { [weak pluginRTCPeerConnection] in
+		pluginRTCPeerConnection?.queue.async { [weak pluginRTCPeerConnection] in
 			pluginRTCPeerConnection?.RTCDataChannel_setListener(dcId,
 				eventListener: { (data: NSDictionary) -> Void in
 					let result = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: data as! [AnyHashable: Any])
@@ -501,7 +501,7 @@ class iosrtcPlugin : CDVPlugin {
 			return;
 		}
 
-		self.queue.async { [weak pluginRTCPeerConnection] in
+		pluginRTCPeerConnection?.queue.async { [weak pluginRTCPeerConnection] in
 			pluginRTCPeerConnection?.RTCDataChannel_sendString(dcId,
 				data: data,
 				callback: { (data: NSDictionary) -> Void in
@@ -526,7 +526,7 @@ class iosrtcPlugin : CDVPlugin {
 			return;
 		}
 
-		self.queue.async { [weak pluginRTCPeerConnection] in
+		pluginRTCPeerConnection?.queue.async { [weak pluginRTCPeerConnection] in
 			pluginRTCPeerConnection?.RTCDataChannel_sendBinary(dcId,
 				data: data,
 				callback: { (data: NSDictionary) -> Void in
@@ -550,7 +550,7 @@ class iosrtcPlugin : CDVPlugin {
 			return;
 		}
 
-		self.queue.async { [weak pluginRTCPeerConnection] in
+		pluginRTCPeerConnection?.queue.async { [weak pluginRTCPeerConnection] in
 			pluginRTCPeerConnection?.RTCDataChannel_close(dcId)
 		}
 	}
@@ -575,7 +575,7 @@ class iosrtcPlugin : CDVPlugin {
 		}
 
 
-		self.queue.async { [weak pluginRTCPeerConnection] in
+		pluginRTCPeerConnection?.queue.async { [weak pluginRTCPeerConnection] in
 			pluginRTCPeerConnection?.createDTMFSender(dsId,
 				track: pluginMediaStreamTrack!,
 				eventListener: { (data: NSDictionary) -> Void in
@@ -604,7 +604,7 @@ class iosrtcPlugin : CDVPlugin {
 			return;
 		}
 
-		self.queue.async { [weak pluginRTCPeerConnection] in
+		pluginRTCPeerConnection?.queue.async { [weak pluginRTCPeerConnection] in
 			pluginRTCPeerConnection?.RTCDTMFSender_insertDTMF(dsId,
 				tones: tones,
 				duration: duration,

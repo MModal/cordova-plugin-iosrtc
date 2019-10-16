@@ -18,6 +18,8 @@ class PluginRTCPeerConnection : NSObject, RTCPeerConnectionDelegate {
 	var onGetStatsCallback: ((_ array: NSArray) -> Void)!
 	var streamIds: [String] = []
 	var isAudioInputSelected: Bool = false
+    // Dispatch queue for serial operations.
+    var queue: DispatchQueue!
 
 	init(
 		rtcPeerConnectionFactory: RTCPeerConnectionFactory,
@@ -48,6 +50,7 @@ class PluginRTCPeerConnection : NSObject, RTCPeerConnectionDelegate {
 	func run() {
 		NSLog("PluginRTCPeerConnection#run()")
 
+        self.queue = DispatchQueue(label: "cordova-plugin-iosrtc-pc-\(UUID().uuidString)", attributes: [])
 		let config = RTCConfiguration();
 		config.iceServers = self.pluginRTCPeerConnectionConfig.getIceServers();
 		self.rtcPeerConnection = self.rtcPeerConnectionFactory.peerConnection(with: config, constraints: self.pluginRTCPeerConnectionConstraints.getConstraints(), delegate: self)
@@ -374,7 +377,7 @@ class PluginRTCPeerConnection : NSObject, RTCPeerConnectionDelegate {
 		callback: @escaping (_ data: [[String:Any]]) -> Void,
 		errback: (_ error: NSError) -> Void
 	) {
-		NSLog("PluginRTCPeerConnection#getStats()")
+//		NSLog("PluginRTCPeerConnection#getStats()")
 
 		if self.rtcPeerConnection.signalingState.rawValue == RTCSignalingState.closed.rawValue {
 			return
@@ -391,7 +394,7 @@ class PluginRTCPeerConnection : NSObject, RTCPeerConnectionDelegate {
 					"values" : report.values
 					])
 			}
-			NSLog("Stats:\n %@", data)
+//			NSLog("Stats:\n %@", data)
 			callback(data)
 		})
 	}
